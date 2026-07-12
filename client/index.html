@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Stop - The Vanguard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; color: #ffffff; }
+        .hidden { display: none; }
+        .hero-section { background-image: linear-gradient(rgba(12, 10, 9, 0.8), rgba(12, 10, 9, 1)), url('https://images.unsplash.com/photo-1580327344181-c1163234e5a0?q=80&w=2940'); background-size: cover; background-position: center; }
+        .customer-card { background-color: #1c1917; border: 1px solid #44403c; border-radius: 0.75rem; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .customer-card:hover { transform: translateY(-5px); box-shadow: 0 0 25px rgba(234, 179, 8, 0.2); }
+        .btn-primary { background-color: #eab308; color: #1c1917; font-weight: 700; border-radius: 0.5rem; padding: 0.75rem 1.5rem; transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 0.05em; }
+        .btn-primary:hover { background-color: #f59e0b; box-shadow: 0 0 15px rgba(234, 179, 8, 0.5); }
+        .form-input, .form-select { background-color: #292524; border: 1px solid #57534e; color: #f3f4f6; border-radius: 0.5rem; padding: 0.75rem 1rem; transition: border-color 0.2s; width: 100%; }
+        .form-input:focus, .form-select:focus { outline: none; border-color: #eab308; box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.4); }
+    </style>
+</head>
+<body class="antialiased bg-stone-900">
+    <header class="bg-black/50 backdrop-blur-sm fixed top-0 left-0 right-0 z-40 border-b border-stone-800">
+          <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+              <h1 class="text-3xl lg:text-4xl font-black tracking-wider text-amber-400">GAME STOP</h1>
+              <nav class="hidden md:flex space-x-6 items-center">
+                  <a href="#games" class="text-gray-300 hover:text-amber-400 transition">Gaming Systems</a>
+                  <a href="#booking" class="text-gray-300 hover:text-amber-400 transition">Book Now</a>
+                  <a href="#contact" class="btn-primary !px-6 !py-2">Contact</a>
+              </nav>
+          </div>
+    </header>
+    <main>
+        <section class="hero-section pt-48 pb-32 flex items-center justify-center text-center">
+              <div class="container mx-auto px-6">
+                  <h2 class="text-4xl md:text-5xl font-black text-white uppercase tracking-widest">Manali New Town</h2>
+                  <h1 class="text-7xl md:text-9xl font-black text-amber-400 uppercase tracking-widest mt-2">Gaming Cafe</h1>
+                  <p class="text-gray-100 mt-6 max-w-2xl mx-auto text-lg">Discover the true fun and entertainment with your friends and families here!</p>
+                  <a href="#booking" class="btn-primary mt-10 inline-block">Book your Slots!</a>
+              </div>
+        </section>
+        <section id="games" class="py-20 bg-stone-950">
+            <div class="container mx-auto px-6">
+                <h2 class="text-4xl font-bold text-center mb-12 text-white">Gaming Powerhouse</h2>
+                <div id="games-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+                    </div>
+            </div>
+        </section>
+        <section id="booking" class="py-20 bg-stone-900">
+              <div class="container mx-auto px-6">
+                  <h2 class="text-4xl font-bold text-center mb-4">Book Your Slot</h2>
+                  <p class="text-center text-gray-400 mb-12 max-w-2xl mx-auto">Select your game and options to see the estimated price. Submit your request and we'll have your spot ready for you!</p>
+                  <form id="booking-form" class="customer-card max-w-3xl mx-auto p-8 space-y-6">
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div><label for="name" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label><input type="text" id="name" class="form-input" required></div>
+                          <div><label for="phone" class="block text-sm font-medium text-gray-300 mb-1">Phone Number</label><input type="tel" id="phone" class="form-input" required></div>
+                      </div>
+                      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div><label for="date" class="block text-sm font-medium text-gray-300 mb-1">Select Date</label><input type="date" id="date" class="form-input" required></div>
+                          <div><label for="time" class="block text-sm font-medium text-gray-300 mb-1">Preferred Time</label><select id="time" class="form-select" required></select></div>
+                      </div>
+                      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                          <div><label for="game" class="block text-sm font-medium text-gray-300 mb-1">Choose Game</label><select id="game" class="form-select" required></select></div>
+                          <div><label for="players" class="block text-sm font-medium text-gray-300 mb-1">Players</label><select id="players" class="form-select" required disabled></select></div>
+                          <div><label for="duration" class="block text-sm font-medium text-gray-300 mb-1">Duration</label><select id="duration" class="form-select" required disabled></select></div>
+                      </div>
+                      <div class="mt-6 text-center"><p class="text-gray-400 text-lg">Estimated Price</p><p id="price-estimate" class="text-amber-400 text-4xl font-bold">Rs. 0</p></div>
+                      <div id="form-message" class="text-center p-4 rounded-lg hidden"></div>
+                      <div><button type="submit" id="submit-btn" class="btn-primary w-full mt-4">Send Booking Request</button></div>
+                  </form>
+              </div>
+        </section>
+          <section id="contact" class="py-20 text-center bg-stone-900">
+               <div class="container mx-auto px-6">
+                  <h2 class="text-4xl font-bold text-center mb-4 text-white">Get In Touch</h2>
+                  <p class="text-gray-400"><strong>Address:</strong> #51/17, 1st Floor, Near Thiruvalluvar Statue, Opp. to Axis ATM, Manali New Town, Chennai - 600 103</p>
+                  <p class="text-gray-400"><strong>Phone:</strong> 99529 83813, 63824 68421, 81224 85224</p>
+                  <p class="text-gray-400"><strong>Email:</strong> gamestopchennai@gmail.com</p>
+               </div>
+               <div class="flex justify-center items-center space-x-8 mt-8">
+    <a href="https://www.instagram.com/game_stop_vanguard" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-2 text-lg">
+        <i class="fab fa-instagram fa-2x"></i>
+        <span>Instagram</span>
+    </a>
+    <a href="https://www.youtube.com/@GameStopChennai" target="_blank" class="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-2 text-lg">
+        <i class="fab fa-youtube fa-2x"></i>
+        <span>YouTube</span>
+    </a>
+</div>
+          </section>
+    </main>
+    <footer class="bg-stone-950 border-t border-stone-800 py-6 text-center">
+        <p class="text-gray-400">&copy; 2025 Game Stop The Vanguard.</p>
+    </footer>
+
+    <script type="module" src="./js/app.js"></script>
+    
+</body>
+</html>
