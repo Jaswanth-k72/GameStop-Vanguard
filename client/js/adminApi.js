@@ -1,4 +1,4 @@
-const API = "http://localhost:5000";
+const API = "https://gamestop-vanguard.onrender.com";
 
 // Pending
 export async function getPendingBookings() {
