@@ -1,44 +1,51 @@
 import supabase from "../config/supabase.js";
 
-export async function calculatePrice(system, players, duration) {
+export async function calculatePrice(systemId, players, duration) {
 
-    let lookupDuration = duration;
+    // Get system information
+    const { data: system, error: systemError } = await supabase
+        .from("systems_new")
+        .select("*")
+        .eq("id", systemId)
+        .single();
 
-    // PS5 & PS4 pricing is stored as hourly rate
-    if (
-        system === "PlayStation 5" ||
-        system === "PlayStation 4"
-    ) {
+    if (systemError || !system) {
+        throw new Error("System not found");
+    }
+
+    let lookupDuration = Number(duration);
+
+    // Hourly systems always use 60-minute base price
+    if (system.pricing_type === "hourly") {
         lookupDuration = 60;
     }
 
-    const { data, error } = await supabase
-        .from("pricing")
-        .select("price")
-        .eq("system", system)
-        .eq("players", players)
+    const { data: priceRow, error: priceError } = await supabase
+        .from("pricing_new")
+        .select("*")
+        .eq("system_id", system.id)
+        .eq("players", Number(players))
         .eq("duration", lookupDuration)
         .single();
 
-    if (error || !data) {
+    if (priceError || !priceRow) {
         throw new Error("Pricing not found");
     }
 
-    // PS5 & PS4 calculation
-    if (
-        system === "PlayStation 5" ||
-        system === "PlayStation 4"
-    ) {
+    // Hourly calculation
+    if (system.pricing_type === "hourly") {
 
-        let total = (data.price / 60) * duration;
+        const hourlyPrice = Number(priceRow.price);
 
-        // Your gaming centre rule
-        if (duration === 30) {
-            total += 20;
+        if (Number(duration) === 30) {
+            return Math.round(hourlyPrice / 2) + 10;
         }
 
-        return Math.round(total);
+        return hourlyPrice * (Number(duration) / 60);
+
     }
 
-    return data.price;
+    // Fixed-price systems
+    return Number(priceRow.price);
+
 }

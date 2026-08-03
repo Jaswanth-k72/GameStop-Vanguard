@@ -1,3 +1,6 @@
+
+
+
 import { getSystems, getPricing } from "./api.js";
 import {
     renderGameCards,
@@ -61,8 +64,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 function updateForm() {
 
-    const game =
-        document.getElementById("game").value;
+    const system = systems.find(
+
+        s => s.id === document.getElementById("game").value
+
+    );
 
     const players =
         document.getElementById("players");
@@ -73,68 +79,51 @@ function updateForm() {
     players.innerHTML = "";
     duration.innerHTML = "";
 
-    if (!game)
+    if (!system)
         return;
 
     // ---------- Players ----------
 
-    let playerOptions =
-        [1,2,3,4];
+    for (let i = 1; i <= system.max_players; i++) {
 
-    if (
-        game === "Racing Simulator" ||
-        game === "Meta Quest 3"
-    ) {
-
-        playerOptions = [1];
+        players.innerHTML += `
+            <option value="${i}">
+                ${i}
+            </option>
+        `;
 
     }
-
-    playerOptions.forEach(p => {
-
-        players.innerHTML +=
-        `<option value="${p}">
-            ${p}
-        </option>`;
-
-    });
 
     // ---------- Duration ----------
 
     let durationOptions = [];
 
-    if (
-        game === "PlayStation 5" ||
-        game === "PlayStation 4"
-    ) {
+    if (system.pricing_type === "hourly") {
 
-        durationOptions =
-        [30,60,90,120,150,180,210,240];
-
-    }
-
-    else if (
-        game === "Racing Simulator"
-    ) {
-
-        durationOptions =
-        [30,60];
+        durationOptions = [
+            30, 60, 90, 120,
+            150, 180, 210, 240
+        ];
 
     }
+    else if (system.name === "Racing Simulator") {
 
-    else {
+        durationOptions = [30, 60];
 
-        durationOptions =
-        [15,30];
+    }
+    else if (system.name === "Meta Quest 3") {
+
+        durationOptions = [15, 30];
 
     }
 
     durationOptions.forEach(d => {
 
-        duration.innerHTML +=
-        `<option value="${d}">
-            ${formatDuration(d)}
-        </option>`;
+        duration.innerHTML += `
+            <option value="${d}">
+                ${formatDuration(d)}
+            </option>
+        `;
 
     });
 
@@ -144,11 +133,11 @@ function updateForm() {
     updatePrice();
 
 }
-
 function updatePrice() {
 
     const total =
         calculateEstimatedPrice(
+            systems,
 
             pricing,
 

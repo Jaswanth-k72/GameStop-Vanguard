@@ -3,7 +3,7 @@ import supabase from "../config/supabase.js";
 export async function getSystems(req, res) {
 
     const { data, error } = await supabase
-        .from("systems")
+        .from("systems_new")
         .select("*")
         .order("name");
 

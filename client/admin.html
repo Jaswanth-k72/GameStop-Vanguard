@@ -1,123 +1,273 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Stop - Admin Panel</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .admin-card { background-color: #1f2937; border: 1px solid #374151; border-radius: 0.75rem; }
-        .admin-btn { display: inline-flex; align-items: center; justify-content: center; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 500; transition: all 0.2s ease-in-out; cursor: pointer; border: 1px solid transparent; }
-        .admin-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-        .admin-btn-primary { background-color: #4f46e5; color: white; } .admin-btn-primary:hover { background-color: #4338ca; }
-        .admin-btn-secondary { background-color: #374151; color: #d1d5db; } .admin-btn-secondary:hover { background-color: #4b5563; }
-        .admin-btn-danger { background-color: #dc2626; color: white; } .admin-btn-danger:hover { background-color: #b91c1c; }
-        .admin-btn-success { background-color: #16a34a; color: white; } .admin-btn-success:hover { background-color: #15803d; }
-        .admin-form-input, .admin-form-select { width: 100%; background-color: #374151; border: 1px solid #4b5563; color: #f3f4f6; border-radius: 0.5rem; padding: 0.6rem 0.8rem; }
-        .admin-form-input:focus, .admin-form-select:focus { outline: none; border-color: #4f46e5; box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5); }
-        .times-up { animation: flash-red 1.5s infinite; }
-        @keyframes flash-red { 0%, 100% { background-color: #991b1b; border-color: #f87171; } 50% { background-color: #1f2937; border-color: #374151; } }
-        ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: #1f2937; } ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 3px; }
-        .price-input { background-color: #1f2937 !important; border-color: #1f2937 !important; box-shadow: none !important; }
-        .price-input:focus { border-color: #4f46e5 !important; box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.5) !important; }
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .admin-card {
+            background-color: #1f2937;
+            border: 1px solid #374151;
+            border-radius: 0.75rem;
+        }
+
+        .admin-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: .2s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .admin-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .admin-btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .admin-btn-primary:hover {
+            background: #4338ca;
+        }
+
+        .admin-btn-secondary {
+            background: #374151;
+            color: #d1d5db;
+        }
+
+        .admin-btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        .admin-btn-success {
+            background: #16a34a;
+            color: white;
+        }
+
+        .admin-btn-success:hover {
+            background: #15803d;
+        }
+
+        .admin-btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .admin-btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .admin-form-input,
+        .admin-form-select {
+            width: 100%;
+            background: #374151;
+            border: 1px solid #4b5563;
+            color: white;
+            border-radius: .5rem;
+            padding: .6rem .8rem;
+        }
+
+        .price-input {
+            background: #1f2937 !important;
+            border-color: #1f2937 !important;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4ade80;
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
+
 <body class="bg-gray-900 text-gray-200">
-    <div id="login-overlay" class="fixed inset-0 bg-gray-900/95 flex items-center justify-center z-50">
-        <div class="bg-gray-800 p-8 rounded-lg shadow-xl w-full max-w-sm border border-gray-700">
-            <h2 class="text-3xl font-bold text-center text-white mb-6">Admin Login</h2>
-            <input type="password" id="password" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-md text-white" placeholder="Password" required>
-            <button onclick="login()" class="w-full mt-6 py-3 bg-indigo-600 hover:bg-indigo-700 font-bold text-white rounded-md">Login</button>
-            <p id="login-error" class="text-red-400 text-center text-sm mt-4 h-5"></p>
-        </div>
+
+    <div id="admin-dashboard" class="p-6 max-w-8xl mx-auto">
+
+        <header class="flex flex-wrap gap-4 justify-between items-center mb-8">
+
+    <h1 class="text-3xl font-bold text-white">
+        Admin Dashboard
+    </h1>
+
+    <div class="flex gap-2">
+
+        
+        <button id="logout-btn"
+            class="admin-btn admin-btn-danger">
+            Logout
+        </button>
+
     </div>
 
-    <div id="admin-dashboard" class="hidden p-6 max-w-8xl mx-auto">
-        <header class="flex flex-wrap gap-4 justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-white">Admin Dashboard</h1>
-            <div>
-                <button id="enable-sound-btn" class="admin-btn admin-btn-secondary">Enable Sound Alerts</button>
-                <button onclick="exportHistory()" class="admin-btn admin-btn-secondary">Export History (CSV)</button>
-            </div>
-        </header>
+</header>
+
 
         <main class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-1 space-y-8">
-                <div class="admin-card p-6"><h2 class="text-2xl font-semibold mb-4 text-indigo-400">Create Walk-in Session</h2><form id="walk-in-form" class="space-y-4"><input type="text" id="walk-in-name" class="admin-form-input" placeholder="Customer Name" required><select id="walk-in-game" class="admin-form-select" required></select><select id="walk-in-duration" class="admin-form-select" required></select><div id="walk-in-players-wrapper" class="hidden"><select id="walk-in-players" class="admin-form-select"></select></div><input type="number" id="walk-in-price" class="admin-form-input price-input text-center text-2xl font-bold text-green-400" value="0" min="0" required><select id="walk-in-payment" class="admin-form-select" required><option>QR Payment</option><option>Cash</option></select><button type="submit" class="admin-btn admin-btn-primary w-full">Start Session</button></form></div>
-                <div class="admin-card p-6"><h2 class="text-2xl font-semibold mb-4 text-amber-400">Place a Food Order</h2><form id="food-order-form" class="space-y-4"><input type="text" id="food-customer-name" placeholder="Customer / Table Name" class="admin-form-input" required><div id="food-items-container" class="space-y-2 max-h-60 overflow-y-auto pr-2"></div><input type="number" id="food-total-price" class="admin-form-input price-input text-center text-2xl font-bold text-amber-400" value="0" min="0" required><select id="food-payment" class="admin-form-select" required><option>QR Payment</option><option>Cash</option></select><button type="submit" class="admin-btn bg-amber-600 hover:bg-amber-700 text-white w-full">Submit Order</button></form></div>
+
+            <!-- LEFT SIDE -->
+
+            <div class="lg:col-span-1">
+
+                <div class="admin-card p-6">
+
+                    <h2 class="text-2xl font-semibold mb-4 text-indigo-400">
+                        Create Walk-in Session
+                    </h2>
+
+                    <form id="walk-in-form" class="space-y-4">
+
+                        <input
+                            type="text"
+                            id="walk-in-name"
+                            class="admin-form-input"
+                            placeholder="Customer Name"
+                            required
+                        >
+
+                        <select
+                            id="walk-in-game"
+                            class="admin-form-select"
+                            required
+                        ></select>
+
+                        <div id="walk-in-players-wrapper" class="hidden">
+
+                            <select
+                                id="walk-in-players"
+                                class="admin-form-select"
+                            ></select>
+
+                        </div>
+
+                        <div id="walk-in-duration-wrapper" class="hidden">
+
+                            <select
+                                id="walk-in-duration"
+                                class="admin-form-select"
+                                required
+                            ></select>
+
+                        </div>
+
+                        <input
+                            type="number"
+                            id="walk-in-price"
+                            class="admin-form-input price-input"
+                            value="0"
+                            readonly
+                        >
+
+                        <select
+                            id="walk-in-payment"
+                            class="admin-form-select"
+                            required
+                        >
+                            <option value="QR Payment">QR Payment</option>
+                            <option value="Cash">Cash</option>
+                        </select>
+
+                        <button
+                            type="submit"
+                            class="admin-btn admin-btn-primary w-full"
+                        >
+                            Start Session
+                        </button>
+
+                    </form>
+
+                </div>
+
             </div>
+
+            <!-- RIGHT SIDE -->
+
             <div class="lg:col-span-2 space-y-8">
-                <div class="admin-card p-6"><h2 class="text-2xl font-semibold text-green-400 mb-4">Pending Bookings</h2><div id="pending-bookings-list" class="space-y-4 max-h-96 overflow-y-auto pr-2"></div></div>
-                <div class="admin-card p-6"><h2 class="text-2xl font-semibold text-indigo-400 mb-4">Active Game Sessions</h2><div id="active-sessions-list" class="space-y-4 max-h-96 overflow-y-auto pr-2"></div></div>
-                <div class="admin-card p-6"><h2 class="text-2xl font-semibold text-amber-400 mb-4">Pending Food Orders</h2><div id="food-orders-list" class="space-y-4 max-h-96 overflow-y-auto pr-2"></div></div>
-            </div>
-        </main>
+
+                <div class="admin-card p-6">
+
+                    <h2 class="text-2xl font-semibold text-green-400 mb-4">
+                        Pending Bookings
+                    </h2>
+
+                    <div
+                        id="pending-bookings-list"
+                        class="space-y-4 max-h-96 overflow-y-auto"
+                    ></div>
+
+                </div>
+
+                <div class="admin-card p-6">
+
+                    <h2 class="text-2xl font-semibold text-blue-400 mb-4">
+                        Approved Bookings
+                    </h2>
+
+                    <div
+                        id="approved-bookings-list"
+                        class="space-y-4 max-h-96 overflow-y-auto"
+                    ></div>
+
+                </div>
+
+                <div class="admin-card p-6">
+
+                    <h2 class="text-2xl font-semibold text-indigo-400 mb-4">
+                        Active Game Sessions
+                    </h2>
+
+                    <div
+                        id="active-sessions-list"
+                        class="space-y-4 max-h-96 overflow-y-auto"
+                    ></div>
+
+                </div>
+
+                <div class="admin-card p-6">
+
+    <h2 class="text-2xl font-semibold text-yellow-400 mb-4">
+
+        Session History
+
+    </h2>
+
+    <div id="history-list"
+         class="overflow-x-auto">
+
     </div>
-    <script>
-    const priceConfig = { 'PS4': { '1': 80, '2': 100, '3': 120, '4': 140 }, 'PS5': { '1': 120, '2': 150, '3': 180, '4': 200 }, 'VR': { '15': 50, '30': 90, '60': 180 }, 'Racing': { '30': 50, '60': 100 }, 'Snooker': { 'perHour': 200 }, 'thirtyMinSurcharge': 20 };
-    const gamesData = [ { name: 'PS5' }, { name: 'PS4' }, { name: 'Racing' }, { name: 'VR' }, { name: 'Snooker' } ];
-    const adminFoodMenu = [ { name: 'French Fries', price: 60 }, { name: 'Peri Peri French Fries', price: 70 }, { name: 'Chicken Nuggets', price: 100 }, { name: 'Chicken Cheese Balls', price: 100 }, { name: 'Chicken Popcorn Small', price: 100}, { name: 'Chicken Popcorn Large', price: 100}, { name: 'Fried Chicken Momos', price: 100}, { name: 'Szechuan Fried Chicken Momos', price: 100} ];
-    let dataFetchInterval, countdownInterval;
 
-    function login() { const password = document.getElementById('password').value; const errorEl = document.getElementById('login-error'); errorEl.textContent = ''; google.script.run.withSuccessHandler(isValid => { if (isValid) { document.getElementById('login-overlay').classList.add('hidden'); document.getElementById('admin-dashboard').classList.remove('hidden'); initializeApp(); } else { errorEl.textContent = 'Invalid Password.'; } }).withFailureHandler(err => { errorEl.textContent = 'Error connecting to backend.'; }).verifyAdmin(password); }
-    
-    // ## MODIFIED: Uses Speech Synthesis API ##
-    function initializeApp() {
-        setupWalkInForm();
-        setupFoodOrderForm();
-        fetchAdminData();
-        dataFetchInterval = setInterval(fetchAdminData, 5000);
-        countdownInterval = setInterval(updateAllTimers, 1000);
+</div>
 
-        const enableSoundBtn = document.getElementById('enable-sound-btn');
-        enableSoundBtn.addEventListener('click', () => {
-            // This click primes the browser's speech synthesis engine, which is required for it to work.
-            const utterance = new SpeechSynthesisUtterance("Sound enabled");
-            utterance.volume = 0; // Play it silently so the user doesn't hear this priming.
-            speechSynthesis.speak(utterance);
-            
-            enableSoundBtn.textContent = 'Sound Enabled!';
-            enableSoundBtn.classList.replace('admin-btn-secondary', 'admin-btn-success');
-            enableSoundBtn.disabled = true;
-        }, { once: true });
-    }
+            </div>
 
-    // ## MODIFIED: Plays sound on click ##
-    function completeSession(id) {
-        if(confirm('End session?')) {
-            playAlert(); // Play the "Time over" voice when end is confirmed
-            google.script.run.withSuccessHandler(fetchAdminData).completeSession(id, null);
-        }
-    }
+        </main>
 
-    // ## NEW: Plays "Time over" voice 3 times ##
-    function playAlert() {
-        try {
-            const utterance = new SpeechSynthesisUtterance("Time over");
-            speechSynthesis.speak(utterance);
-            setTimeout(() => speechSynthesis.speak(utterance), 1500);
-            setTimeout(() => speechSynthesis.speak(utterance), 3000);
-        } catch (e) {
-            console.error("Speech synthesis failed:", e);
-        }
-    }
+    </div>
 
-    // --- The rest of the script is unchanged ---
-    function fetchAdminData() { google.script.run.withSuccessHandler(response => { const data = JSON.parse(response); renderPendingBookings(data.pendingBookings); renderActiveSessions(data.activeSessions); renderFoodOrders(data.foodOrders); }).getAdminData(); }
-    function renderPendingBookings(bookings) { const list = document.getElementById('pending-bookings-list'); list.innerHTML = bookings.length ? bookings.map(b => `<div class="bg-gray-700 p-3 rounded-lg"><div class="flex justify-between items-start"><div><p class="font-bold text-white">${b.name} (${b.phone})</p><p class="text-sm text-gray-300">${b.game} (${b.players}p, ${b.duration}m)</p></div><p class="font-semibold text-green-400">Rs. ${b.price}</p></div><div class="mt-2 flex gap-2"><button class="admin-btn admin-btn-success text-xs flex-1" onclick="approveBooking('${b.id}')">Confirm & Start</button><button class="admin-btn admin-btn-danger text-xs flex-1" onclick="updateStatus('${b.id}', 'Rejected')">Reject</button></div></div>`).join('') : '<p class="text-gray-500 text-center py-8">No pending requests.</p>'; }
-    function renderActiveSessions(sessions) { const list = document.getElementById('active-sessions-list'); list.innerHTML = sessions.length ? sessions.map(s => `<div class="admin-card p-4 flex flex-col md:flex-row justify-between items-center gap-4 session-card" id="session-${s.id}" data-endtime="${s.endTime}"><div><p class="text-xl font-bold">${s.name}</p><p class="text-indigo-300">${s.game}</p><p class="text-sm text-green-400 font-semibold">Price: ${s.price}</p></div><div><p class="text-3xl font-mono font-bold timer-display">--:--:--</p></div><div class="flex gap-2"><button class="admin-btn admin-btn-secondary text-xs" onclick="adjustTime('${s.id}', 15)">+15m</button><button class="admin-btn admin-btn-secondary text-xs" onclick="adjustTime('${s.id}', -15)">-15m</button><button class="admin-btn admin-btn-danger text-xs" onclick="completeSession('${s.id}')">End</button></div></div>`).join('') : '<p class="text-gray-500 text-center py-8">No active sessions.</p>'; updateAllTimers(); }
-    function renderFoodOrders(orders) { const list = document.getElementById('food-orders-list'); list.innerHTML = orders.length ? orders.map(oData => `<div class="bg-gray-700 p-3 rounded-lg"><div class="flex justify-between items-center"><div><p class="font-bold text-white">${oData[0]}</p><p class="text-sm text-gray-300">${oData[1]}</p></div><div class="text-right"><p class="font-semibold text-amber-400">Rs. ${oData[2]}</p><button onclick='completeFoodOrder(${JSON.stringify(oData)})' class="mt-1 bg-blue-600 text-white text-xs font-bold py-1 px-2 rounded">Complete</button></div></div></div>`).join('') : '<p class="text-gray-500 text-center py-8">No pending food orders.</p>'; }
-    function approveBooking(id) { const paymentMethod = prompt("Enter payment method:", "QR Payment"); if (paymentMethod && paymentMethod.trim() !== "") updateStatus(id, 'Approved', paymentMethod); }
-    function updateStatus(id, status, paymentMethod = null) { google.script.run.withSuccessHandler(fetchAdminData).updateBookingStatus(id, status, paymentMethod); }
-    function adjustTime(id, minutes) { google.script.run.withSuccessHandler(fetchAdminData).adjustTime(id, minutes); }
-    function completeFoodOrder(orderData) { if(confirm('Complete this food order?')) google.script.run.withSuccessHandler(res => { if(res.success) fetchAdminData(); else alert('Error: '+res.error); }).completeFoodOrder(orderData); }
-    function exportHistory() { google.script.run.withSuccessHandler(csvContent => { const blob = new Blob([csvContent], {type:'text/csv;charset=utf-8;'}); const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `gamestop_history_${new Date().toISOString().split('T')[0]}.csv`; link.click(); URL.revokeObjectURL(link.href); }).exportHistory(); }
-    function updateAllTimers() { document.querySelectorAll('.session-card').forEach(el => { const timerEl = el.querySelector('.timer-display'); if (!timerEl) return; const endTime = parseInt(el.dataset.endtime, 10); if (isNaN(endTime)) return; const diff = endTime - new Date().getTime(); if (diff > 0) { const h = Math.floor(diff/36e5).toString().padStart(2,'0'), m = Math.floor(diff%36e5/6e4).toString().padStart(2,'0'), s = Math.floor(diff%6e4/1e3).toString().padStart(2,'0'); timerEl.textContent = `${h}:${m}:${s}`; el.classList.remove('times-up'); } else { timerEl.textContent = 'Time Over!'; if (!el.classList.contains('times-up')) { el.classList.add('times-up'); playAlert(); } } }); }
-    function calculatePrice(game, duration, players) { let price = 0; if (!game || !duration || !players) return 0; duration = parseInt(duration); players = parseInt(players); const gamePrices = priceConfig[game]; if (['PS4', 'PS5'].includes(game)) { price = (gamePrices[players] / 60) * duration; } else if (game === 'Snooker') { price = (gamePrices.perHour / 60) * duration; } else if (['Racing', 'VR'].includes(game)) { price = gamePrices[duration] || 0; } if (duration === 30 && !['VR', 'Racing'].includes(game)) { price += priceConfig.thirtyMinSurcharge; } return price.toFixed(0); }
-    function setupWalkInForm() { const form=document.getElementById('walk-in-form'), gameSelect=document.getElementById('walk-in-game'), durSelect=document.getElementById('walk-in-duration'), playersWrap=document.getElementById('walk-in-players-wrapper'), playSelect=document.getElementById('walk-in-players'), priceInput=document.getElementById('walk-in-price'); gameSelect.innerHTML = '<option value="">Choose a game...</option>' + gamesData.map(g=>`<option value="${g.name}">${g.name}</option>`).join(''); const update = () => { const price = calculatePrice(gameSelect.value, durSelect.value, playSelect.value); priceInput.value = price; }; gameSelect.addEventListener('change', () => { const game=gameSelect.value; let durs=[30,60,90,120,180]; if(game==='VR') durs=[15,30,60]; if(game==='Racing') durs=[30,60]; durSelect.innerHTML = durs.map(d=>`<option value="${d}">${d} min</option>`).join(''); let plays=[1,2,3,4]; if(game==='Snooker') plays=[2,3,4]; if(game==='VR'||game==='Racing') plays=[1]; playSelect.innerHTML = plays.map(p=>`<option value="${p}">${p} player(s)</option>`).join(''); playersWrap.classList.toggle('hidden', !['PS4','PS5','Snooker'].includes(game)); update(); }); durSelect.addEventListener('change', update); playSelect.addEventListener('change', update); form.addEventListener('submit', e => { e.preventDefault(); const data = {name:document.getElementById('walk-in-name').value, game:gameSelect.value, duration:durSelect.value, players:playSelect.value, price:parseFloat(priceInput.value), paymentMethod:document.getElementById('walk-in-payment').value}; if(!data.game || !data.duration) return; google.script.run.withSuccessHandler(fetchAdminData).createWalkInSession(data); form.reset(); priceInput.value = '0'; }); }
-    function setupFoodOrderForm() { const form=document.getElementById('food-order-form'), container=document.getElementById('food-items-container'), priceInput=document.getElementById('food-total-price'); container.innerHTML = adminFoodMenu.map(item => `<div class="flex items-center justify-between"><label class="flex items-center"><input type="checkbox" name="food" value="${item.name}" data-price="${item.price}" class="h-4 w-4 bg-gray-800 border-gray-600 text-indigo-600"><span class="ml-3 text-sm">${item.name}</span></label><input type="number" min="1" value="1" class="admin-form-input w-20 text-center quantity-input" disabled></div>`).join(''); const updatePrice = () => { let total=0; container.querySelectorAll('input:checked').forEach(cb => { total += parseFloat(cb.dataset.price) * parseInt(cb.closest('div').querySelector('.quantity-input').value); }); priceInput.value = total.toFixed(0); }; container.addEventListener('change', e=>{if(e.target.type==='checkbox') e.target.closest('div').querySelector('.quantity-input').disabled = !e.target.checked; updatePrice();}); container.addEventListener('input', e=>{if(e.target.classList.contains('quantity-input')) updatePrice();}); form.addEventListener('submit', e => { e.preventDefault(); const items = Array.from(container.querySelectorAll('input:checked')).map(cb => `${cb.closest('div').querySelector('.quantity-input').value}x ${cb.value}`); if(items.length===0){alert('Select at least one item'); return;} const data = {name: document.getElementById('food-customer-name').value || 'Counter Sale', items:items.join(', '), price:parseFloat(priceInput.value), paymentMethod:document.getElementById('food-payment').value}; google.script.run.withSuccessHandler(res=>{if(res.success){fetchAdminData();}}).submitFoodOrder(data); form.reset(); container.querySelectorAll('.quantity-input').forEach(i=>i.disabled=true); priceInput.value='0'; }); }
-</script>
+    <script type="module" src="./js/adminApp.js"></script>
+
 </body>
+
 </html>

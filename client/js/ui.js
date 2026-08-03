@@ -45,13 +45,13 @@ export function populateGameDropdown(games) {
 
     games.forEach(game => {
 
-        select.innerHTML += `
-            <option value="${game.name}">
-                ${game.name}
-            </option>
-        `;
+    select.innerHTML += `
+        <option value="${game.id}">
+            ${game.name}
+        </option>
+    `;
 
-    });
+});
 
 }
 

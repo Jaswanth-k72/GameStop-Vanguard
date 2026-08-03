@@ -2,20 +2,28 @@ import supabase from "../config/supabase.js";
 
 export async function getPricing(req, res) {
 
-    const { data, error } = await supabase
-        .from("pricing")
-        .select("*");
+    try {
 
-    if (error) {
-        return res.status(500).json({
-            success: false,
-            message: error.message
+        const { data, error } = await supabase
+            .from("pricing_new")
+            .select("*");
+
+        if (error) throw error;
+
+        res.json({
+            success: true,
+            data
         });
-    }
 
-    res.json({
-        success: true,
-        data
-    });
+    } catch (err) {
+
+        console.error("Pricing Error:", err);
+
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+
+    }
 
 }
