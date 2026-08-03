@@ -7,7 +7,9 @@ import bookingRoutes from "./routes/bookingRoutes.js";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "https://gamestop-chennai.netlify.app"
+}));
 app.use(express.json());
 
 app.get("/", (req, res) => {
